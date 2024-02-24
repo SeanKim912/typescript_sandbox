@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es2017", // project will use ECMAScript 2017
+        "module": "commonjs", // project will use CommonJS syntax to import/export modules
+        "strictNullChecks": true // variables can only have null or undefined values if they are explicitly assigned those values
+    },
+    "include": ["**/*.ts"] // determines which files the compiler applies the rules to. In this case, all .ts files in the project will be checked by the compiler
+}
+
+/*
+    Compiler will automatically recognize the tsconfig.json file and apply the rules to the project without you specifying the file in the command line.
+*/
