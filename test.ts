@@ -34,4 +34,64 @@ onOrOff = false;
 
 let mustBeString : string;
 mustBeString = "Hello";
-mustBeString = 1; // Error: Type '1' is not assignable to type 'string'
+// mustBeString = 1; // Error: Type '1' is not assignable to type 'string'
+
+/*
+    Parameters in functions can have type annotations as well. Any parameter without a type annotation is assumed to be of type 'any'.
+*/
+
+function printKeyValue(key: string, value) {
+    console.log(`${key}: ${value}`);
+}
+
+printKeyValue('Courage', 1337); // Prints: Courage: 1337
+printKeyValue('Mood', 'scared'); // Prints: Mood: scared
+
+// Optional parammeters: ? is added after the parameter name to make it optional.
+
+function greet(name?: string) {
+    console.log(`Hello, ${name || 'Anonymous'}!`);
+}
+
+greet('Anders'); // Prints: Hello, Anders!
+greet(); // TypeScript Error: Expected 1 arguments, but got 0.
+
+// Default parameters: If parameter is assigned a default value, Typescript will infer the type from the default value.
+function greeting(name = 'Anonymous') {     // name is inferred to be of type string. Any other type will result in a type error.
+    console.log(`Hello, ${name}!`);
+}
+
+// Inferring Return Types: Typescript will infer the return type of a function based on the return value.
+function ouncesToCups(ounces: number) {
+    return `${ounces / 16} cups`;
+}
+
+// const liquidAmount: number = ouncesToCups(3); // Type 'string' is not assignable to type 'number'.
+
+// Explicit Return Types: You can also explicitly declare the return type of a function.
+function createGreeting(name?: string): string {
+    if (name) {
+        return `Hello, ${name}!`;
+    }
+
+    return "Name must be a string!";
+    // Typescript Error: Type 'undefined' is not assignable to type 'string'.
+};
+
+// Void Return Type: If a function doesn't return anything, you should declare it to have a void return type.
+function logGreeting(name:string): void{
+    console.log(`Hello, ${name}!`)
+}
+
+// Documentation Comments: Many text editors will display documentation comments when hovering over a function or variable.
+/**
+   * Returns the sum of two numbers.
+   *
+   * @param x - The first input number
+   * @param y - The second input number
+   * @returns The sum of `x` and `y`
+   *
+   */
+function getSum(x: number, y: number): number { // Try hovering over getSum to see the documentation comment.
+    return x + y;
+}
