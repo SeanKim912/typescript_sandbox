@@ -233,3 +233,56 @@ function changeLight(color: Color) {
   // ...
 }
 // If you tried to call changeLight('blue'), TypeScript would throw an error.
+
+/*
+    Using in with Type Guards:
+    Instead of using 'typeof', sometiems you'll want to see if a specific method exists on a
+    custom type. You can use the 'in' keyword to check if a property exists on an object itself
+    or anywhere in its prototype chain.
+
+    Type narrowing is possible here because TypeScript recognizes 'in' as a type guard.
+*/
+
+type Tennis = {
+    serve: () => void;
+}
+
+type Soccer = {
+    kick: () => void;
+}
+
+function play(sport: Tennis | Soccer) {
+    if ('serve' in sport) {
+        return sport.serve();
+    }
+
+    if ('kick' in sport) {
+        return sport.kick();
+    }
+}
+
+// TypeScript can also use else statements to narrow types.
+function formatPadding(padding: string | number) {
+    if (typeof padding === 'string') {
+        return padding.toLowerCase();
+    } else {
+        return `${padding}px`;
+    }
+}
+
+// TypeScript can go even further with with type narrowing.
+type Tea = {
+    steep: () => string;
+}
+
+type Coffee = {
+    pourOver: () => string;
+}
+
+function brew(beverage: Coffee | Tea) {
+    if ('steep' in beverage) {
+        return beverage.steep();
+    }
+
+    return beverage.pourOver(); // Don't need else since there's a return statement within the type guard.
+}
