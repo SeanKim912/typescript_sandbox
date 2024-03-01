@@ -105,3 +105,131 @@ let codecademyCoordinates: [number, number, string, number, number, string] = [4
 let bermudaTCoordinates: [number, number, string, number, number, string] = [25, 0 , 'N' , 71, 0, 'W'];
 
 gpsNavigate(...codecademyCoordinates, ...bermudaTCoordinates);
+
+/*
+    Union Types:
+    Feature of TypeScript that allows you to combine types, providing type specificity
+    somewhere between a single type and the any type.
+    Use the vertical line character (|) to separate the types.
+*/
+
+let ID: string | number;
+
+// number
+ID = 1;
+
+// or string
+ID = '001';
+
+console.log(`The ID is ${ID}.`);
+
+/*
+    Type Guards:
+    A way to check the type of a variable at runtime.
+*/
+
+function getMarginLeft(margin: string | number) {
+    // margin may be a string or number here
+
+    if (typeof margin === 'string') {
+      // margin must be a string here
+        return margin.toLowerCase();
+    }
+}
+
+/*
+    If we tried to call margin.toLowerCase() outside of the string type guard, TypeScript
+    would complain that the .toLowerCase() method does not exist on number types. This error
+    would occur because margin is typed as a string | number union.
+
+    This feature is called Type Narrowing, where TypeScript can figure out what type a variable
+    can be at a given point in the code.
+
+    TypeScript can also see the contents of a function and infer the function's return type. If
+    there are multiple possible return types, TypeScript will infer the return type as a union.
+
+    For instance:
+
+    function getBook() {
+        try {
+        return getBookFromServer();
+    } catch (error) {
+        return `Something went wrong: ${error}`;
+    }
+
+    If the call is successful, the function will return a Book type describing a book. If the call
+    fails, the function will return a string. getBook() can return a Book or string type, TypeScript
+    infers the return type as the union Book | string. Since TypeScript can infer the function’s
+    return type, there’s no need for us to manually define it.
+}
+*/
+
+type User = {
+        id: number;
+        username: string;
+    };
+
+    function createUser() {
+    const randomChance = Math.random() >= 0.5;
+
+    if (randomChance) {
+        return { id: 1, username: 'nikko' };
+    } else {
+        return 'Could not create a user.';
+    }
+}
+
+let userData: User | string = createUser();
+
+
+// Type Unions for Arrays
+
+const dateNumber = new Date().getTime(); // returns a number
+const dateString = new Date().toString(); // returns a string
+
+const timesList: (string | number)[] = [dateNumber, dateString];
+/*
+    IMPORTANT NOTE:
+    Be sure to type arrays correctly. If you left out the parentheses and wrote
+    string | number[], TypeScript would only allow strings OR arrays of only
+    numbers.
+*/
+
+/*
+    When we put type members in a union, TypeScript will only allow us to use the
+    common methods and properties that ALL members of the union share.
+*/
+
+const batteryStatus: boolean | number = false;
+
+batteryStatus.toString(); // No TypeScript error, since booleans and numbers both have a toString method.
+// batteryStatus.toFixed(2); // TypeScript error, since boolean doesn't have a toFixed method.
+
+// Also applies to type objects
+type Goose = {
+    isPettable: boolean;
+    hasFeathers: boolean;
+    canThwartAPicnic: boolean;
+    }
+
+type Moose = {
+    isPettable: boolean;
+    hasHoofs: boolean;
+}
+
+// const pettingZooAnimal: Goose | Moose = { isPettable: true };
+
+// console.log(pettingZooAnimal.isPettable); // No TypeScript error
+// console.log(pettingZooAnimal.hasHoofs); // TypeScript error
+
+/*
+    Unions with Literal Types:
+    Allows us to write functions that are specific about the allowable
+    states of the program.
+*/
+type Color = 'green' | 'yellow' | 'red'; // A custom type we made
+
+function changeLight(color: Color) {
+  // ...
+}
+// If you tried to call changeLight('blue'), TypeScript would throw an error.
